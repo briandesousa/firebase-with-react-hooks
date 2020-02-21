@@ -8,3 +8,15 @@ body {
 a {
   color: #003366;
 }
+
+header {
+  text-align: center;
+}
+
+footer {
+  text-align: center;
+}
+
+h2 {
+  margin-top: 5px;
+}

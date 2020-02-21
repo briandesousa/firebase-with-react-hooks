@@ -1,15 +1,3 @@
-.app-header {
-  text-align: center;
-}
-
-.app-footer {
-  text-align: center;
-}
-
-h2 {
-  margin-top: 5px;
-}
-
 .container {
   display: flex;
   justify-content: space-evenly;
@@ -32,10 +20,4 @@ h2 {
   padding: 20px;
   border-radius: 2%;
   margin: 5px;
-}
-
-.button-group button {
-  margin-right: 10px;
-  font-size: 1.1rem;
-  color: #003366;
 }
