@@ -1,7 +1,7 @@
 body {
-  margin: 0;
+  margin: 20px;
   font-family: 'Sriracha', cursive;
-  background: #659DBD;
+  background: rgb(141, 185, 211);
   color: #003366;
 }
 

@@ -18,8 +18,8 @@ h2 {
 
 .add-item-column {
   min-width: 300px;
-  width: 30%;
-  background-color: #FBEEC1;
+  width: 25%;
+  background-color: rgb(247, 237, 202);
   padding: 20px;
   border-radius: 2%;
   margin: 5px;
@@ -27,8 +27,8 @@ h2 {
 
 .list-column {
   min-width: 300px;
-  width: 30%;
-  background-color: #FBEEC1;
+  width: 25%;
+  background-color: rgb(247, 237, 202);
   padding: 20px;
   border-radius: 2%;
   margin: 5px;
