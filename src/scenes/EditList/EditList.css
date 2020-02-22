@@ -1,6 +1,6 @@
-.container {
+.edit-container {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   flex-wrap: wrap;
 }
 
@@ -11,6 +11,7 @@
   padding: 20px;
   border-radius: 2%;
   margin: 5px;
+  text-align: center;
 }
 
 .list-column {
@@ -20,4 +21,5 @@
   padding: 20px;
   border-radius: 2%;
   margin: 5px;
+  text-align: center;
 }

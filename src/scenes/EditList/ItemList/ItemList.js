@@ -1,13 +1,19 @@
 import React from 'react';
 
-function ItemList() {
+function ItemList(props) {
+
+    const { items } = props;
+    const itemListItems = items.map((item, index) => {
+        return (
+            <div key={index}>
+                {item.name}
+            </div>
+        )
+    });
+
     return (
         <div>
-            <ul>
-                <li key={1}>carrots</li>
-                <li key={2}>pickels</li>
-                <li key={3}>bread</li>
-            </ul>
+            {itemListItems}
         </div>
     );
 }

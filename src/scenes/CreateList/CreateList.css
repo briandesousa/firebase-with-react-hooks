@@ -1,5 +1,11 @@
-.container {
+.create-container {
   display: flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  justify-content: stretch;
+}
+
+.create-container div {
+  max-width: 500px;
+  text-align: center;
 }

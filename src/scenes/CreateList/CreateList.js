@@ -1,21 +1,29 @@
 import React from 'react';
 import './CreateList.css';
 
-function CreateList() {
-    
+function CreateList(props) {
+
+    const { createList } = props;
+
     // create new grocery list on Firebase, reload browser with new permanent URL
-    function createNewList() {
-        const listId = 3;
-        window.location.href=`/?list=${listId}`;
+    function createNewList(e) {
+        e.preventDefault();
+        createList(document.createListForm.userName.value);
     }
 
     return (
         <div>
             <header>
-                <h1>Create a new grocery list</h1>
+                <h1>Welcome to the Grocery List app!</h1>
             </header>
-            <div className="container">
-                <button onClick={createNewList}>Create Grocery List</button>
+            <div className="create-container">
+                <div>
+                    <form name="createListForm">
+                        <p><label>What is your name?</label></p>
+                        <p><input type="text" name="userName" /></p>
+                        <p><button onClick={createNewList}>Create a new grocery list</button></p>
+                    </form>
+                </div>
             </div>
         </div>
     );
