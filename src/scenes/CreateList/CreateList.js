@@ -1,14 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './CreateList.css';
+import * as FirestoreService from '../../services/firestore';
+import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 
 function CreateList(props) {
 
-    const { createList } = props;
+    const { onCreate } = props;
 
-    // create new grocery list on Firebase, reload browser with new permanent URL
-    function createNewList(e) {
+    const [ error, setError ] = useState();
+
+    function createGroceryList(e) {
         e.preventDefault();
-        createList(document.createListForm.userName.value);
+        setError(null);
+
+        const userName = document.createListForm.userName.value;
+        if (!userName) {
+            setError('user-name-required');
+            return;
+        }
+
+        FirestoreService.createGroceryList(userName)
+            .then(docRef => {
+                onCreate(docRef.id, userName);
+            })
+            .catch(reason => setError('create-list-error'));
     }
 
     return (
@@ -21,7 +36,8 @@ function CreateList(props) {
                     <form name="createListForm">
                         <p><label>What is your name?</label></p>
                         <p><input type="text" name="userName" /></p>
-                        <p><button onClick={createNewList}>Create a new grocery list</button></p>
+                        <ErrorMessage errorCode={error}></ErrorMessage>
+                        <p><button onClick={createGroceryList}>Create a new grocery list</button></p>
                     </form>
                 </div>
             </div>

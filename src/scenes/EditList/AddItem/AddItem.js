@@ -1,25 +1,34 @@
 import React, { useState } from 'react';
 import './AddItem.css';
+import * as FirestoreService from '../../../services/firestore';
+import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage'
+
 
 function AddItem(props) {
 
-    const { addListItem } = props;
+    const { groceryListId } = props;
 
-    const [hasError, setHasError] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [error, setError] = useState('');
 
     function addItem(e) {
         e.preventDefault();
-        setHasError(false);
+        setError(null);
 
         const itemDesc = document.addItemForm.itemDesc.value;
-        if (itemDesc) {
-            addListItem(itemDesc);
-            document.addItemForm.reset();
-        } else {
-            setHasError(true);
-            setErrorMessage('Item description required');
+        if (!itemDesc) {
+            setError('grocery-item-desc-req');
+            return;
         }
+
+        FirestoreService.addGroceryListItem(itemDesc, groceryListId)
+            .then(() => document.addItemForm.reset())
+            .catch(reason => {
+                if (reason.message === 'duplicate-item-error') {
+                    setError(reason.message);
+                } else {
+                    setError('add-list-item-error');
+                }
+            });
     }
 
     return (
@@ -27,9 +36,7 @@ function AddItem(props) {
             <h3>I want...</h3>
             <input type="text" name="itemDesc" />
             <button type="submit" onClick={addItem}>Add</button>
-            <p style={{display: hasError ? 'block' : 'none'}} className="formError">
-                {errorMessage}
-            </p>
+            <ErrorMessage errorCode={error}></ErrorMessage>
         </form>
     );
 }

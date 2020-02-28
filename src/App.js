@@ -5,7 +5,7 @@ import * as FirestoreService from './services/firestore';
 import CreateList from './scenes/CreateList/CreateList';
 import JoinList from './scenes/JoinList/JoinList';
 import EditList from './scenes/EditList/EditList';
-import Error from './components/Error/Error';
+import ErrorMessage from './components/ErrorMessage/ErrorMessage';
 
 import useQueryString from './hooks/useQueryString'
 
@@ -16,76 +16,55 @@ function App() {
   const [groceryList, setGroceryList] = useState();
   const [error, setError] = useState();
 
-  // custom hook to track changes to query string
-  const [currentListId, setCurrentListId] = useQueryString('listId');
+  // Use a custom hook to subscribe to the grocery list ID provided as a URL query parameter
+  const [groceryListId, setGroceryListId] = useQueryString('listId');
 
-  // reload grocery list from database when selected list changes
+  // Use an effect to load the grocery list from the database
   useEffect(() => {
-    if(currentListId) {
-      FirestoreService.getListById(currentListId).then(
-        groceryList => setGroceryList(groceryList),
-        error => handleError(error, 'grocery-list-not-found')
-      );
+    if (groceryListId) {
+      FirestoreService.getGroceryList(groceryListId)
+        .then(groceryList => {
+          if (groceryList.exists) {
+            setError(null);
+            setGroceryList(groceryList.data());
+          } else {
+            setError('grocery-list-not-found');
+            setGroceryListId();
+          }
+        })
+        .catch(() => setError('grocery-list-get-fail'));
     }
-  }, [currentListId]);
+  }, [groceryListId, setGroceryListId]);
 
-  function handleError(error, errorCode) {
-    console.log(error);
-    setError(errorCode);
+  function onGroceryListCreate(groceryListId, userName) {
+    setGroceryListId(groceryListId);
+    setUser(userName);
   }
 
-  // set current user
-  function selectUser(userName) {
-    if (!groceryList.users.find(user => user.name === userName)) {
-      // user hasn't joined this list yet, add them
-      FirestoreService.addUserToList(userName, groceryList).then(
-        updatedList => {
-          setGroceryList(updatedList);
-          setUser(userName);
-        },
-        error => handleError(error, 'add-user-to-list-error')
-      );
-    } else {
-      setUser(userName);
-    }
-  }
-
-  // create grocery list
-  function handleListCreate(userName) {
-    FirestoreService.createList(userName).then(
-      newList => {
-        setCurrentListId(newList.listId);
-        setUser(newList.users[0].name);
-      },
-      error => handleError(error, 'create-list-error')
-    );
-  }
-
-  // add an item to the grocery list
-  function handleAddListItem(listItem) {
-    if (!groceryList.items.find(item => item.name === listItem)) {
-      FirestoreService.addItemToList(listItem, groceryList).then(
-        updatedGroceryList => setGroceryList(updatedGroceryList),
-        error => handleError(error, 'add-list-item-error')
-      );
-    }
+  function onSelectUser(userName) {
+    setUser(userName);
+    FirestoreService.getGroceryList(groceryListId)
+      .then(updatedGroceryList => setGroceryList(updatedGroceryList.data()))
+      .catch(() => setError('grocery-list-get-fail'));
   }
   
-  // display scene based on current state
-  let scene;
+  // render a scene based on the current state
   if (groceryList && user) {
-    scene = <EditList list={groceryList} addListItem={handleAddListItem} currentUser={user}></EditList>;
+    return <EditList {...{groceryListId, user}}></EditList>;
   } else if(groceryList) {
-    scene = <JoinList users={groceryList.users} selectUser={selectUser}></JoinList>;
-  } else {
-    scene = (
+    return (
       <div>
-        <Error errorCode={error}></Error>
-        <CreateList createList={handleListCreate}></CreateList>
+        <ErrorMessage errorCode={error}></ErrorMessage>
+        <JoinList users={groceryList.users} {...{groceryListId, onSelectUser}}></JoinList>
       </div>
     );
   }
-  return scene;
+  return (
+    <div>
+      <ErrorMessage errorCode={error}></ErrorMessage>
+      <CreateList onCreate={onGroceryListCreate}></CreateList>
+    </div>
+  );
 }
 
 export default App;
