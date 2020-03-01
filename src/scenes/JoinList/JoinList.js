@@ -5,7 +5,7 @@ import * as FirestoreService from '../../services/firestore';
 
 function JoinList(props) {
 
-    const { users, groceryListId, onSelectUser } = props;
+    const { users, groceryListId, onSelectUser, onCloseGroceryList } = props;
 
     const [ error, setError ] = useState();
 
@@ -41,6 +41,11 @@ function JoinList(props) {
         }
     }
 
+    function onCreateListClick(e) {
+        e.preventDefault();
+        onCloseGroceryList();
+    }
+
     return (
         <div>
             <header>
@@ -57,7 +62,7 @@ function JoinList(props) {
                             <button onClick={addNewUser}>Join</button>
                         </p>
                         <ErrorMessage errorCode={error}></ErrorMessage>
-                        <p>...or <a href="/">create a new grocery list</a></p>
+                        <p>...or <a href="/" onClick={onCreateListClick}>create a new grocery list</a></p>
                     </form>
                 </div>
             </div>

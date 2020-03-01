@@ -41,6 +41,12 @@ function App() {
     setUser(userName);
   }
 
+  function onCloseGroceryList() {
+    setGroceryListId();
+    setGroceryList();
+    setUser();
+  }
+
   function onSelectUser(userName) {
     setUser(userName);
     FirestoreService.getGroceryList(groceryListId)
@@ -50,12 +56,12 @@ function App() {
   
   // render a scene based on the current state
   if (groceryList && user) {
-    return <EditList {...{groceryListId, user}}></EditList>;
+    return <EditList {...{ groceryListId, user, onCloseGroceryList}}></EditList>;
   } else if(groceryList) {
     return (
       <div>
         <ErrorMessage errorCode={error}></ErrorMessage>
-        <JoinList users={groceryList.users} {...{groceryListId, onSelectUser}}></JoinList>
+        <JoinList users={groceryList.users} {...{groceryListId, onSelectUser, onCloseGroceryList}}></JoinList>
       </div>
     );
   }
