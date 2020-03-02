@@ -16,3 +16,7 @@ In the project directory, you can run:
 `npm test` to launch the test runner in interactive watch mode
 `npm run build` to bundle the app for production
 `npm run eject` to eject React Scripts dependency
+
+## Live Demo
+
+Try a live version of this app at [https://fir-with-react-hooks.firebaseapp.com/](https://fir-with-react-hooks.firebaseapp.com/).
