@@ -5,7 +5,7 @@ import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 
 function CreateList(props) {
 
-    const { onCreate } = props;
+    const { onCreate, userId } = props;
 
     const [ error, setError ] = useState();
 
@@ -19,7 +19,7 @@ function CreateList(props) {
             return;
         }
 
-        FirestoreService.createGroceryList(userName)
+        FirestoreService.createGroceryList(userName, userId)
             .then(docRef => {
                 onCreate(docRef.id, userName);
             })
