@@ -6,7 +6,7 @@ import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage'
 
 function AddItem(props) {
 
-    const { groceryListId } = props;
+    const { groceryListId, userId } = props;
 
     const [error, setError] = useState('');
 
@@ -20,7 +20,7 @@ function AddItem(props) {
             return;
         }
 
-        FirestoreService.addGroceryListItem(itemDesc, groceryListId)
+        FirestoreService.addGroceryListItem(itemDesc, groceryListId, userId)
             .then(() => document.addItemForm.reset())
             .catch(reason => {
                 if (reason.message === 'duplicate-item-error') {

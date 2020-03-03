@@ -5,7 +5,7 @@ import * as FirestoreService from '../../services/firestore';
 
 function JoinList(props) {
 
-    const { users, groceryListId, onSelectUser, onCloseGroceryList } = props;
+    const { users, groceryListId, onSelectUser, onCloseGroceryList, userId } = props;
 
     const [ error, setError ] = useState();
 
@@ -32,11 +32,8 @@ function JoinList(props) {
         if (users.find(user => user.name === userName)) {
             onSelectUser(userName);
         } else {
-            FirestoreService.addUserToGroceryList(userName, groceryListId)
-                .then(() => {
-                    onSelectUser(userName);
-                    document.addUserToListForm.reset();
-                })
+            FirestoreService.addUserToGroceryList(userName, groceryListId, userId)
+                .then(() => onSelectUser(userName))
                 .catch(() => setError('add-user-to-list-error'));
         }
     }

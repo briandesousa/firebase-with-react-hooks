@@ -7,6 +7,8 @@ function ErrorMessage(props) {
 
     function getErrorMessage() {
         switch(errorCode) {
+            case 'anonymous-auth-failed':
+                return 'Anonymous authentication failed. Try again.'
             case 'grocery-list-not-found':
                 return 'The grocery list could not be found. Try creating a new one.';
             case 'grocery-list-get-fail':
