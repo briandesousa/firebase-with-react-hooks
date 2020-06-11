@@ -8,7 +8,7 @@ import AddItem from "./AddItem/AddItem";
 import ItemList from "./ItemList/ItemList";
 import { userAtom, groceryListAtom } from "../../recoilstore/atoms";
 
-function EditList(props) {
+function EditList() {
   const [groceryListId, setGroceryListId] = useQueryString("listId");
   const [user, setUser] = useRecoilState(userAtom);
   const [, setGroceryList] = useRecoilState(groceryListAtom);

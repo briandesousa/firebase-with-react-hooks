@@ -59,7 +59,7 @@ function App() {
 
   // render a scene based on the current state
   if (groceryList && user) {
-    return <EditList {...{ groceryListId, onCloseGroceryList }}></EditList>;
+    return <EditList />;
   } else if (groceryList) {
     return (
       <div>
