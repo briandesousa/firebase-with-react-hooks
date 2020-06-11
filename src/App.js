@@ -65,9 +65,7 @@ function App() {
   // render a scene based on the current state
   if (groceryList && user) {
     return (
-      <EditList
-        {...{ groceryListId, user, onCloseGroceryList }}
-      ></EditList>
+      <EditList {...{ groceryListId, user, onCloseGroceryList }}></EditList>
     );
   } else if (groceryList) {
     return (
@@ -75,7 +73,7 @@ function App() {
         <ErrorMessage errorCode={error}></ErrorMessage>
         <JoinList
           users={groceryList.users}
-          {...{ groceryListId, onSelectUser, onCloseGroceryList, userId }}
+          {...{ groceryListId, onSelectUser, onCloseGroceryList }}
         ></JoinList>
       </div>
     );
@@ -83,7 +81,7 @@ function App() {
   return (
     <div>
       <ErrorMessage errorCode={error}></ErrorMessage>
-      <CreateList onCreate={onGroceryListCreate} userId={userId}></CreateList>
+      <CreateList onCreate={onGroceryListCreate}></CreateList>
     </div>
   );
 }
