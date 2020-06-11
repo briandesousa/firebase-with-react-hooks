@@ -1,44 +1,48 @@
-import React, { useState } from 'react';
-import './AddItem.css';
-import * as FirestoreService from '../../../services/firestore';
-import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage'
+import React, { useState } from "react";
+import { useRecoilState } from "recoil";
+import { userIdAtom } from "../../../recoilstore/atoms";
 
+import "./AddItem.css";
+import * as FirestoreService from "../../../services/firestore";
+import ErrorMessage from "../../../components/ErrorMessage/ErrorMessage";
 
 function AddItem(props) {
+  const [userId] = useRecoilState(userIdAtom);
+  const { groceryListId } = props;
 
-    const { groceryListId, userId } = props;
+  const [error, setError] = useState("");
 
-    const [error, setError] = useState('');
+  function addItem(e) {
+    e.preventDefault();
+    setError(null);
 
-    function addItem(e) {
-        e.preventDefault();
-        setError(null);
-
-        const itemDesc = document.addItemForm.itemDesc.value;
-        if (!itemDesc) {
-            setError('grocery-item-desc-req');
-            return;
-        }
-
-        FirestoreService.addGroceryListItem(itemDesc, groceryListId, userId)
-            .then(() => document.addItemForm.reset())
-            .catch(reason => {
-                if (reason.message === 'duplicate-item-error') {
-                    setError(reason.message);
-                } else {
-                    setError('add-list-item-error');
-                }
-            });
+    const itemDesc = document.addItemForm.itemDesc.value;
+    if (!itemDesc) {
+      setError("grocery-item-desc-req");
+      return;
     }
 
-    return (
-        <form name="addItemForm">
-            <h3>I want...</h3>
-            <input type="text" name="itemDesc" />
-            <button type="submit" onClick={addItem}>Add</button>
-            <ErrorMessage errorCode={error}></ErrorMessage>
-        </form>
-    );
+    FirestoreService.addGroceryListItem(itemDesc, groceryListId, userId)
+      .then(() => document.addItemForm.reset())
+      .catch((reason) => {
+        if (reason.message === "duplicate-item-error") {
+          setError(reason.message);
+        } else {
+          setError("add-list-item-error");
+        }
+      });
+  }
+
+  return (
+    <form name="addItemForm">
+      <h3>I want...</h3>
+      <input type="text" name="itemDesc" />
+      <button type="submit" onClick={addItem}>
+        Add
+      </button>
+      <ErrorMessage errorCode={error}></ErrorMessage>
+    </form>
+  );
 }
 
 export default AddItem;

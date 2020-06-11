@@ -5,7 +5,7 @@ import ItemList from './ItemList/ItemList';
 
 function EditList(props) {
 
-    const { groceryListId, user, onCloseGroceryList, userId } = props;
+    const { groceryListId, user, onCloseGroceryList } = props;
 
     function onCreateListClick(e) {
         e.preventDefault();
@@ -21,7 +21,7 @@ function EditList(props) {
             </header>
             <div className="edit-container">
                 <div className="add-item-column">
-                    <AddItem {...{groceryListId, userId}}></AddItem>
+                    <AddItem {...{groceryListId}}></AddItem>
                 </div>
                 <div className="list-column">
                     <ItemList {...{groceryListId}}></ItemList>
