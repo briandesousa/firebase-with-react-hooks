@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { userIdAtom, groceryListAtom } from "../../recoilstore/atoms";
+import { useRecoilState } from "recoil";
+import useQueryString from "../../hooks/useQueryString";
+
+import { userIdAtom, groceryListAtom, userAtom } from "../../recoilstore/atoms";
 
 import "./JoinList.css";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
@@ -8,11 +10,23 @@ import * as FirestoreService from "../../services/firestore";
 
 function JoinList(props) {
   const [userId] = useRecoilState(userIdAtom);
-  const { groceryListId, onSelectUser, onCloseGroceryList } = props;
+  const { groceryListId, onSelectUser } = props;
 
   const [error, setError] = useState();
 
-  const { users } = useRecoilValue(groceryListAtom);
+  const [groceryList, setGroceryList] = useRecoilState(groceryListAtom);
+  const [, setUser] = useRecoilState(userAtom);
+
+  const [, setGroceryListId] = useQueryString("listId");
+
+  function onCreateListClick(e) {
+    e.preventDefault();
+    // onCloseGroceryList();
+
+    setGroceryListId();
+    setGroceryList();
+    setUser();
+  }
 
   function addExistingUser(e) {
     e.preventDefault();
@@ -20,7 +34,7 @@ function JoinList(props) {
   }
 
   function getUserButtonList() {
-    const buttonList = users.map((user) => (
+    const buttonList = groceryList.users.map((user) => (
       <button key={user.name} onClick={addExistingUser}>
         {user.name}
       </button>
@@ -38,18 +52,13 @@ function JoinList(props) {
       return;
     }
 
-    if (users.find((user) => user.name === userName)) {
+    if (groceryList.users.find((user) => user.name === userName)) {
       onSelectUser(userName);
     } else {
       FirestoreService.addUserToGroceryList(userName, groceryListId, userId)
         .then(() => onSelectUser(userName))
         .catch(() => setError("add-user-to-list-error"));
     }
-  }
-
-  function onCreateListClick(e) {
-    e.preventDefault();
-    onCloseGroceryList();
   }
 
   return (

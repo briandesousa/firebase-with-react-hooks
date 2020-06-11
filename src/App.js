@@ -44,12 +44,6 @@ function App() {
       .catch(() => setError("anonymous-auth-failed"));
   }, [setGroceryList, groceryListId, setGroceryListId, setUserId]);
 
-  function onCloseGroceryList() {
-    setGroceryListId();
-    setGroceryList();
-    setUser();
-  }
-
   function onSelectUser(userName) {
     setUser(userName);
     FirestoreService.getGroceryList(groceryListId)
@@ -64,9 +58,7 @@ function App() {
     return (
       <div>
         <ErrorMessage errorCode={error}></ErrorMessage>
-        <JoinList
-          {...{ groceryListId, onSelectUser, onCloseGroceryList }}
-        ></JoinList>
+        <JoinList {...{ onSelectUser }}></JoinList>
       </div>
     );
   }
