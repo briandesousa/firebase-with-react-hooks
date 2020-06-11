@@ -9,18 +9,13 @@ import "./CreateList.css";
 import * as FirestoreService from "../../services/firestore";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 
-function CreateList(props) {
-  const [userId] = useRecoilState(userIdAtom);
-  const [user, setUser] = useRecoilState(userAtom);
-
+function CreateList() {
   const [error, setError] = useState();
 
-  const [groceryListId, setGroceryListId] = useQueryString("listId");
+  const [userId] = useRecoilState(userIdAtom);
+  const [, setUser] = useRecoilState(userAtom);
 
-  // function onGroceryListCreate(groceryListId, userName) {
-  //   setGroceryListId(groceryListId);
-  //   setUser(userName);
-  // }
+  const [, setGroceryListId] = useQueryString("listId");
 
   function createGroceryList(e) {
     e.preventDefault();

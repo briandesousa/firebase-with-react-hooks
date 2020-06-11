@@ -9,7 +9,7 @@ import "./JoinList.css";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import * as FirestoreService from "../../services/firestore";
 
-function JoinList(props) {
+function JoinList() {
   const [error, setError] = useState();
 
   const [userId] = useRecoilState(userIdAtom);
