@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
-import { userIdAtom } from "../../recoilstore/atoms";
+import { userIdAtom, userAtom } from "../../recoilstore/atoms";
+
+// Use a custom hook to subscribe to the grocery list ID provided as a URL query parameter
+import useQueryString from "../../hooks/useQueryString";
 
 import "./CreateList.css";
 import * as FirestoreService from "../../services/firestore";
@@ -8,9 +11,16 @@ import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 
 function CreateList(props) {
   const [userId] = useRecoilState(userIdAtom);
-  const { onCreate } = props;
+  const [user, setUser] = useRecoilState(userAtom);
 
   const [error, setError] = useState();
+
+  const [groceryListId, setGroceryListId] = useQueryString("listId");
+
+  // function onGroceryListCreate(groceryListId, userName) {
+  //   setGroceryListId(groceryListId);
+  //   setUser(userName);
+  // }
 
   function createGroceryList(e) {
     e.preventDefault();
@@ -24,7 +34,9 @@ function CreateList(props) {
 
     FirestoreService.createGroceryList(userName, userId)
       .then((docRef) => {
-        onCreate(docRef.id, userName);
+        // onCreate(docRef.id, userName);
+        setGroceryListId(docRef.id);
+        setUser(userName);
       })
       .catch((reason) => setError("create-list-error"));
   }

@@ -10,14 +10,14 @@ import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
 
 import useQueryString from "./hooks/useQueryString";
 
-import { userIdAtom, groceryListAtom } from "./recoilstore/atoms";
+import { userIdAtom, groceryListAtom, userAtom } from "./recoilstore/atoms";
 
 function App() {
-  const [user, setUser] = useState();
   const [error, setError] = useState();
 
   const [userId, setUserId] = useRecoilState(userIdAtom);
   const [groceryList, setGroceryList] = useRecoilState(groceryListAtom);
+  const [user, setUser] = useRecoilState(userAtom);
 
   // Use a custom hook to subscribe to the grocery list ID provided as a URL query parameter
   const [groceryListId, setGroceryListId] = useQueryString("listId");
@@ -44,10 +44,10 @@ function App() {
       .catch(() => setError("anonymous-auth-failed"));
   }, [setGroceryList, groceryListId, setGroceryListId, setUserId]);
 
-  function onGroceryListCreate(groceryListId, userName) {
-    setGroceryListId(groceryListId);
-    setUser(userName);
-  }
+  // function onGroceryListCreate(groceryListId, userName) {
+  //   setGroceryListId(groceryListId);
+  //   setUser(userName);
+  // }
 
   function onCloseGroceryList() {
     setGroceryListId();
@@ -80,7 +80,7 @@ function App() {
   return (
     <div>
       <ErrorMessage errorCode={error}></ErrorMessage>
-      <CreateList onCreate={onGroceryListCreate}></CreateList>
+      <CreateList />
     </div>
   );
 }
