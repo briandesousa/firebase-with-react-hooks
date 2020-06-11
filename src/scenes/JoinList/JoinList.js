@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useRecoilState } from "recoil";
-import { userIdAtom } from "../../recoilstore/atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { userIdAtom, groceryListAtom } from "../../recoilstore/atoms";
 
 import "./JoinList.css";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
@@ -8,9 +8,11 @@ import * as FirestoreService from "../../services/firestore";
 
 function JoinList(props) {
   const [userId] = useRecoilState(userIdAtom);
-  const { users, groceryListId, onSelectUser, onCloseGroceryList } = props;
+  const { groceryListId, onSelectUser, onCloseGroceryList } = props;
 
   const [error, setError] = useState();
+
+  const { users } = useRecoilValue(groceryListAtom);
 
   function addExistingUser(e) {
     e.preventDefault();

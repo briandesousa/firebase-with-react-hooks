@@ -4,3 +4,8 @@ export const userIdAtom = atom({
   key: "userId",
   default: null,
 });
+
+export const groceryListAtom = atom({
+  key: "groceryList",
+  default: null,
+});
