@@ -15,7 +15,7 @@ import { userIdAtom, groceryListAtom, userAtom } from "./recoilstore/atoms";
 function App() {
   const [error, setError] = useState();
 
-  const [userId, setUserId] = useRecoilState(userIdAtom);
+  const [, setUserId] = useRecoilState(userIdAtom);
   const [groceryList, setGroceryList] = useRecoilState(groceryListAtom);
   const [user, setUser] = useRecoilState(userAtom);
 

@@ -1,17 +1,23 @@
 import React from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
+
+import useQueryString from "../../hooks/useQueryString";
+
 import "./EditList.css";
 import AddItem from "./AddItem/AddItem";
 import ItemList from "./ItemList/ItemList";
-import { userAtom } from "../../recoilstore/atoms";
+import { userAtom, groceryListAtom } from "../../recoilstore/atoms";
 
 function EditList(props) {
-  const { groceryListId, onCloseGroceryList } = props;
-  const user = useRecoilValue(userAtom);
+  const [groceryListId, setGroceryListId] = useQueryString("listId");
+  const [user, setUser] = useRecoilState(userAtom);
+  const [, setGroceryList] = useRecoilState(groceryListAtom);
 
   function onCreateListClick(e) {
     e.preventDefault();
-    onCloseGroceryList();
+    setGroceryListId();
+    setGroceryList();
+    setUser();
   }
 
   return (
@@ -28,10 +34,10 @@ function EditList(props) {
       </header>
       <div className="edit-container">
         <div className="add-item-column">
-          <AddItem {...{ groceryListId }}></AddItem>
+          <AddItem />
         </div>
         <div className="list-column">
-          <ItemList {...{ groceryListId }}></ItemList>
+          <ItemList />
         </div>
       </div>
       <footer className="app-footer">
