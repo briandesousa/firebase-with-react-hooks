@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
 import useQueryString from "../../hooks/useQueryString";
 
@@ -14,7 +14,7 @@ function JoinList() {
 
   const [userId] = useRecoilState(userIdAtom);
   const [groceryList, setGroceryList] = useRecoilState(groceryListAtom);
-  const [, setUser] = useRecoilState(userAtom);
+  const setUser = useSetRecoilState(userAtom);
 
   const [groceryListId, setGroceryListId] = useQueryString("listId");
 

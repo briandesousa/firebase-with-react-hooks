@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
 
 import * as FirestoreService from "./services/firestore";
 
@@ -15,7 +15,7 @@ import { userIdAtom, groceryListAtom, userAtom } from "./recoilstore/atoms";
 function App() {
   const [error, setError] = useState();
 
-  const [, setUserId] = useRecoilState(userIdAtom);
+  const setUserId = useSetRecoilState(userIdAtom);
   const [groceryList, setGroceryList] = useRecoilState(groceryListAtom);
   const user = useRecoilValue(userAtom);
 

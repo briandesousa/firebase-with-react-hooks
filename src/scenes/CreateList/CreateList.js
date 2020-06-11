@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { userIdAtom, userAtom } from "../../recoilstore/atoms";
 
 // Use a custom hook to subscribe to the grocery list ID provided as a URL query parameter
@@ -12,8 +12,8 @@ import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 function CreateList() {
   const [error, setError] = useState();
 
-  const [userId] = useRecoilState(userIdAtom);
-  const [, setUser] = useRecoilState(userAtom);
+  const userId = useRecoilValue(userIdAtom);
+  const setUser = useSetRecoilState(userAtom);
 
   const [, setGroceryListId] = useQueryString("listId");
 

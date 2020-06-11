@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import useQueryString from "../../../hooks/useQueryString";
 
 import { userIdAtom } from "../../../recoilstore/atoms";
@@ -9,7 +9,7 @@ import * as FirestoreService from "../../../services/firestore";
 import ErrorMessage from "../../../components/ErrorMessage/ErrorMessage";
 
 function AddItem() {
-  const [userId] = useRecoilState(userIdAtom);
+  const userId = useRecoilValue(userIdAtom);
   const [groceryListId] = useQueryString("listId");
 
   const [error, setError] = useState("");

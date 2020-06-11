@@ -7,7 +7,9 @@ export const userIdAtom = atom({
 
 export const groceryListAtom = atom({
   key: "groceryList",
-  default: null,
+  default: {
+    users: [],
+  },
 });
 
 export const userAtom = atom({
