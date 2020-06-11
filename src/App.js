@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 import * as FirestoreService from "./services/firestore";
 
@@ -17,7 +17,7 @@ function App() {
 
   const [, setUserId] = useRecoilState(userIdAtom);
   const [groceryList, setGroceryList] = useRecoilState(groceryListAtom);
-  const [user, setUser] = useRecoilState(userAtom);
+  const user = useRecoilValue(userAtom);
 
   // Use a custom hook to subscribe to the grocery list ID provided as a URL query parameter
   const [groceryListId, setGroceryListId] = useQueryString("listId");
@@ -44,13 +44,6 @@ function App() {
       .catch(() => setError("anonymous-auth-failed"));
   }, [setGroceryList, groceryListId, setGroceryListId, setUserId]);
 
-  function onSelectUser(userName) {
-    setUser(userName);
-    FirestoreService.getGroceryList(groceryListId)
-      .then((updatedGroceryList) => setGroceryList(updatedGroceryList.data()))
-      .catch(() => setError("grocery-list-get-fail"));
-  }
-
   // render a scene based on the current state
   if (groceryList && user) {
     return <EditList />;
@@ -58,7 +51,7 @@ function App() {
     return (
       <div>
         <ErrorMessage errorCode={error}></ErrorMessage>
-        <JoinList {...{ onSelectUser }}></JoinList>
+        <JoinList />
       </div>
     );
   }

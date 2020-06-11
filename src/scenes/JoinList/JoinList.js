@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
+
 import useQueryString from "../../hooks/useQueryString";
 
 import { userIdAtom, groceryListAtom, userAtom } from "../../recoilstore/atoms";
@@ -9,15 +10,20 @@ import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import * as FirestoreService from "../../services/firestore";
 
 function JoinList(props) {
-  const [userId] = useRecoilState(userIdAtom);
-  const { groceryListId, onSelectUser } = props;
-
   const [error, setError] = useState();
 
+  const [userId] = useRecoilState(userIdAtom);
   const [groceryList, setGroceryList] = useRecoilState(groceryListAtom);
   const [, setUser] = useRecoilState(userAtom);
 
-  const [, setGroceryListId] = useQueryString("listId");
+  const [groceryListId, setGroceryListId] = useQueryString("listId");
+
+  function onSelectUser(userName) {
+    setUser(userName);
+    FirestoreService.getGroceryList(groceryListId)
+      .then((updatedGroceryList) => setGroceryList(updatedGroceryList.data()))
+      .catch(() => setError("grocery-list-get-fail"));
+  }
 
   function onCreateListClick(e) {
     e.preventDefault();
