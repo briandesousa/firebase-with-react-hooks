@@ -44,11 +44,6 @@ function App() {
       .catch(() => setError("anonymous-auth-failed"));
   }, [setGroceryList, groceryListId, setGroceryListId, setUserId]);
 
-  // function onGroceryListCreate(groceryListId, userName) {
-  //   setGroceryListId(groceryListId);
-  //   setUser(userName);
-  // }
-
   function onCloseGroceryList() {
     setGroceryListId();
     setGroceryList();
@@ -64,9 +59,7 @@ function App() {
 
   // render a scene based on the current state
   if (groceryList && user) {
-    return (
-      <EditList {...{ groceryListId, user, onCloseGroceryList }}></EditList>
-    );
+    return <EditList {...{ groceryListId, onCloseGroceryList }}></EditList>;
   } else if (groceryList) {
     return (
       <div>
