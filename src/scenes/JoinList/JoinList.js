@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 
-import useQueryString from "../../hooks/useQueryString";
-
-import { userIdAtom, groceryListAtom, userAtom } from "../../recoilstore/atoms";
+import {
+  userIdAtom,
+  groceryListAtom,
+  userAtom,
+  groceryListIdAtom,
+} from "../../recoilstore/atoms";
 
 import "./JoinList.css";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
@@ -16,7 +19,7 @@ function JoinList() {
   const [groceryList, setGroceryList] = useRecoilState(groceryListAtom);
   const setUser = useSetRecoilState(userAtom);
 
-  const [groceryListId, setGroceryListId] = useQueryString("listId");
+  const [groceryListId, setGroceryListId] = useRecoilState(groceryListIdAtom);
 
   function onSelectUser(userName) {
     setUser(userName);

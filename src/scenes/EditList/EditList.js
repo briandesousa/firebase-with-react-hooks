@@ -1,15 +1,17 @@
 import React from "react";
 import { useRecoilState } from "recoil";
 
-import useQueryString from "../../hooks/useQueryString";
-
 import "./EditList.css";
 import AddItem from "./AddItem/AddItem";
 import ItemList from "./ItemList/ItemList";
-import { userAtom, groceryListAtom } from "../../recoilstore/atoms";
+import {
+  userAtom,
+  groceryListAtom,
+  groceryListIdAtom,
+} from "../../recoilstore/atoms";
 
 function EditList() {
-  const [groceryListId, setGroceryListId] = useQueryString("listId");
+  const [groceryListId, setGroceryListId] = useRecoilState(groceryListIdAtom);
   const [user, setUser] = useRecoilState(userAtom);
   const [, setGroceryList] = useRecoilState(groceryListAtom);
 

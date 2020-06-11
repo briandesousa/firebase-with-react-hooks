@@ -8,9 +8,12 @@ import JoinList from "./scenes/JoinList/JoinList";
 import EditList from "./scenes/EditList/EditList";
 import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
 
-import useQueryString from "./hooks/useQueryString";
-
-import { userIdAtom, groceryListAtom, userAtom } from "./recoilstore/atoms";
+import {
+  userIdAtom,
+  groceryListAtom,
+  userAtom,
+  groceryListIdAtom,
+} from "./recoilstore/atoms";
 
 function App() {
   const [error, setError] = useState();
@@ -18,12 +21,19 @@ function App() {
   const setUserId = useSetRecoilState(userIdAtom);
   const [groceryList, setGroceryList] = useRecoilState(groceryListAtom);
   const user = useRecoilValue(userAtom);
+  const [groceryListId, setGroceryListId] = useRecoilState(groceryListIdAtom);
 
-  // Use a custom hook to subscribe to the grocery list ID provided as a URL query parameter
-  const [groceryListId, setGroceryListId] = useQueryString("listId");
+  // get listId from query and write it to atom state
+  useEffect(() => {
+    console.log("first load get QS param");
+    const listId = new URLSearchParams(window.location.search).get("listId");
+    setGroceryListId(listId);
+  }, [setGroceryListId]);
 
   // Use an effect to authenticate and load the grocery list from the database
   useEffect(() => {
+    console.log("groceryListID has changed so running effect");
+
     FirestoreService.authenticateAnonymously()
       .then((userCredential) => {
         setUserId(userCredential.user.uid);

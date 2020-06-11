@@ -10,6 +10,11 @@ export const groceryListAtom = atom({
   default: null,
 });
 
+export const groceryListIdAtom = atom({
+  key: "groceryListId",
+  default: null,
+});
+
 export const userAtom = atom({
   key: "user",
   default: null,
