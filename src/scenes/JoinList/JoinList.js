@@ -40,11 +40,13 @@ function JoinList() {
   }
 
   function getUserButtonList() {
-    const buttonList = groceryList.users.map((user) => (
-      <button key={user.name} onClick={addExistingUser}>
-        {user.name}
-      </button>
-    ));
+    const buttonList = groceryList
+      ? groceryList.users.map((user) => (
+          <button key={user.name} onClick={addExistingUser}>
+            {user.name}
+          </button>
+        ))
+      : null;
     return <div className="button-group">{buttonList}</div>;
   }
 
